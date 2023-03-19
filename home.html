@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NAVY algorithms - BAU0025</title>
+    <link type="text/css" href="css/bootstrap.min.css">
+    <link type="text/css" href="css/styles.css">
+</head>
+<body id="body" style="opacity: 0; overflow: hidden;">
+    <div style="width: 100%; height: 50px; padding: 1rem; background-color: #9FCC7F; display: flex; align-items: center;">
+        <h2 style="margin: 0; color: #fff; font-family: monospace;"><strong>NAVY algorithms by Jan Bauer - BAU0025</strong></h2>
+    </div>
+    <div style="height: 35px; width: 100%; display: flex;" class="border-bottom">
+        <button id="ffSwitch" class="btn btn-block btn-secondary border-right m-0 active" style="border-radius: 0;">
+            <span><strong>Forest Fire model</strong></span>
+        </button>
+        <button id="dpSwitch" class="btn btn-block btn-secondary border-right m-0" style="border-radius: 0;">
+            <span><strong>Double pendulum</strong></span>
+        </button>
+        <button id="bdSwitch" class="btn btn-block btn-secondary border-right m-0" style="border-radius: 0;">
+            <span><strong>Logistic map</strong></span>
+        </button>
+        <button id="flSwitch" class="btn btn-block btn-secondary border-right m-0" style="border-radius: 0;">
+            <span><strong>Fractal landscapes</strong></span>
+        </button>
+        <button id="msSwitch" class="btn btn-block btn-secondary border-right m-0" style="border-radius: 0;">
+            <span><strong>Mandelbrot set</strong></span>
+        </button>
+        <button id="ifsSwitch" class="btn btn-block btn-secondary border-right m-0" style="border-radius: 0;">
+            <span><strong>IFS (Iterated Function System)</strong></span>
+        </button>
+        <button id="lsSwitch" class="btn btn-block btn-secondary m-0" style="border-radius: 0;">
+            <span><strong>L-systems</strong></span>
+        </button>
+    </div>
+
+    <div id="loading" style="display: flex; width: 100%; height: calc(100vh - 85px); align-items: center; justify-content: center;">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <img class="loading" src="img/hourglass.svg" alt="loading icon">
+            <span>Loading...</span>
+        </div>
+    </div>
+
+    <!--      FOREST FIRE MODEL-->
+    <div id="ffContainer" style="position: relative; display: none;">
+        <div style="position: fixed; left: 0; top: 85px; width: 15%; z-index: 1;box-shadow: 0.05rem 0.3rem 0.5rem rgba(0,0,0,0.5); height: calc(100vh - 85px); overflow-y: auto; overflow-x: hidden">
+            <h5 class="p-2 m-0" style="text-align: center; font-family: sans-serif; border-bottom: 4px dotted #9FCC7F;"><strong>Forest Fire model</strong></h5>
+            <div id="ffList" class="list-group list-group-flush">
+                <div id="collapse-ff-frameRate-model" class="p-2 collapse show">
+                    <label style="font-size: small;margin: 0;">Frame rate: <strong id="ff-frameRateValue">20</strong></label>
+                    <div class="input-group mb-1 mt-2">
+                        <input id="ff-frameRateRange" type="range" min="1" max="50" value="20" class="slider" />
+                    </div>
+                </div>
+                <div id="collapse-ff-fireProb-model" class="p-2 collapse show">
+                    <label style="font-size: small;margin: 0;">Fire probability: <strong id="ff-fireProbValue">0.001</strong></label>
+                    <div class="input-group mb-1 mt-2">
+                        <input id="ff-fireProbRange" type="range" min="0" max="1" value="0.001" step="0.0001" class="slider" />
+                    </div>
+                </div>
+                <div id="collapse-ff-treeProb-model" class="p-2 collapse show">
+                    <label style="font-size: small;margin: 0;">New tree probability: <strong id="ff-treeProbValue">0.05</strong></label>
+                    <div class="input-group mb-1 mt-2">
+                        <input id="ff-treeProbRange" type="range" min="0.01" max="1" value="0.05" step="0.01" class="slider" />
+                    </div>
+                </div>
+                <div id="collapse-ff-fieldSize-model" class="p-2 collapse show mt-2" style="border-top: 4px dashed #9FCC7F;">
+                    <label style="font-size: small;margin: 0;">Fields size: <strong id="ff-fieldSizeValue">40</strong></label>
+                    <div class="input-group mb-1 mt-2">
+                        <input id="ff-fieldSizeRange" type="range" min="10" max="100" value="40" class="slider" />
+                    </div>
+                </div>
+
+                <button id="ffApply" class="btn btn-sm btn-outline-success m-2" type="button">Restart & Apply</button>
+            </div>
+        </div>
+        <div id="ff" style="position: absolute; width: 85%; left: 15%; right: 0;">
+        </div>
+    </div>
+
+<!--      DOUBLE PENDULUM -->
+        <div id="dpContainer" style="position: relative; display: none;">
+            <div style="position: fixed; left: 0; top: 85px; width: 15%; z-index: 1;box-shadow: 0.05rem 0.3rem 0.5rem rgba(0,0,0,0.5); height: calc(100vh - 85px); overflow-y: auto; overflow-x: hidden">
+                <h5 class="p-2 m-0" style="text-align: center; font-family: sans-serif; border-bottom: 4px dotted #9FCC7F;"><strong>Double pendulum - chaotic motion</strong></h5>
+                <div id="dpList" class="list-group list-group-flush">
+                    <div id="collapse-dp-arm1-model" class="p-2 collapse show">
+                        <label style="font-size: small;margin: 0;">Arm 1 length: <strong id="dpArm1Value">200</strong></label>
+                        <div class="input-group mb-1 mt-2">
+                            <input id="dpArm1Range" type="range" min="50" max="500" value="200" class="slider" />
+                        </div>
+                    </div>
+                    <div id="collapse-dp-pend1-model" class="p-2 collapse show">
+                        <label style="font-size: small;margin: 0;">Pendulum 1 diameter: <strong id="dpPend1Value">30</strong></label>
+                        <div class="input-group mb-1 mt-2">
+                            <input id="dpPend1Range" type="range" min="5" max="50" value="30" class="slider" />
+                        </div>
+                    </div>
+                    <div id="collapse-dp-arm2-model" class="p-2 collapse show">
+                        <label style="font-size: small;margin: 0;">Arm 2 length: <strong id="dpArm2Value">200</strong></label>
+                        <div class="input-group mb-1 mt-2">
+                            <input id="dpArm2Range" type="range" min="50" max="500" value="200" class="slider" />
+                        </div>
+                    </div>
+                    <div id="collapse-dp-pend2-model" class="p-2 collapse show">
+                        <label style="font-size: small;margin: 0;">Pendulum 2 diameter: <strong id="dpPend2Value">30</strong></label>
+                        <div class="input-group mb-1 mt-2">
+                            <input id="dpPend2Range" type="range" min="5" max="50" value="30" class="slider" />
+                        </div>
+                    </div>
+                    <button id="dpApply" class="btn btn-sm btn-outline-success m-2" type="button">Restart & Apply</button>
+                </div>
+            </div>
+            <div id="dp" style="position: absolute; width: 85%; left: 15%; right: 0;">
+            </div>
+        </div>
+
+    <!--    LOGISTIC MAP - BIFURCATION DIAGRAM -->
+    <div id="bdContainer" style="position: relative; display: none;">
+        <div style="position: fixed; left: 0; top: 85px; width: 15%; z-index: 1;box-shadow: 0.05rem 0.3rem 0.5rem rgba(0,0,0,0.5); height: calc(100vh - 85px); overflow-y: auto; overflow-x: hidden">
+            <h5 class="p-2 m-0" style="text-align: center; font-family: sans-serif; border-bottom: 4px dotted #9FCC7F;"><strong>Logistic map - Bifurcation diagram</strong></h5>
+            <div id="bdList" class="list-group list-group-flush">
+                <div id="collapse-bd-epochs-model" class="p-2 collapse show">
+                    <label style="font-size: small;margin: 0;">Number of epochs: <strong id="bdEpochsValue">500</strong></label>
+                    <div class="input-group mb-1 mt-2">
+                        <input id="bdEpochsRange" type="range" min="1" max="500" value="500" class="slider" />
+                    </div>
+                </div>
+                <div id="collapse-bd-R-model" class="p-2 collapse show">
+                    <label style="font-size: small;margin: 0;">R initial value: <strong id="bdRValue">1</strong></label>
+                    <div class="input-group mb-1 mt-2">
+                        <input id="bdRRange" type="range" min="1" max="4" value="1" step="0.01" class="slider" />
+                    </div>
+                </div>
+                <div id="collapse-bd-R-in-model" class="p-2 collapse show">
+                    <label style="font-size: small;margin: 0;">R increment value: <strong id="bdRInValue">0,01</strong></label>
+                    <div class="input-group mb-1 mt-2">
+                        <input id="bdRInRange" type="range" min="0.003" max="0.3" value="0.005" step="0.001" class="slider" />
+                    </div>
+                </div>
+
+                <button id="bdApply" class="btn btn-sm btn-outline-success m-2" type="button">Apply settings</button>
+            </div>
+        </div>
+        <div id="bdLoading" style="display: none; flex-direction: column; align-items: center; justify-content: center; position: absolute; width: 85%; height: calc(100vh - 85px); left: 15%; right: 0;">
+            <img class="loading" src="img/hourglass.svg" alt="loading icon">
+            <span>Loading...</span>
+        </div>
+        <div id="bdCanvas" style="position: absolute; width: 85%; height: calc(100vh - 50px); left: 15%; right: 0;">
+        </div>
+    </div>
+
+    <!--    FRACTAL LANDSCAPES-->
+    <div id="flContainer" style="position: relative; display: none;">
+        <div style="position: fixed; left: 0; top: 85px; width: 15%; z-index: 1;box-shadow: 0.05rem 0.3rem 0.5rem rgba(0,0,0,0.5); height: calc(100vh - 85px); overflow-y: auto; overflow-x: hidden">
+            <h5 class="p-2 m-0" style="text-align: center; font-family: sans-serif; border-bottom: 4px dotted #9FCC7F;"><strong>Fractal landscapes</strong></h5>
+            <div id="flList" class="list-group list-group-flush">
+                <div id="collapse-fl-epochs-model" class="p-2 collapse show">
+                    <label style="font-size: small;margin: 0;">Number of epochs (0 - 11):</label>
+                    <div class="input-group mb-1">
+                        <input id="flEpochsInput" type="text" class="form-control form-control-sm" placeholder=""/>
+                    </div>
+                </div>
+                <div id="collapse-fl-size-model" class="p-2 collapse show">
+                    <label style="font-size: small;margin: 0;">Environment size (5 - 100):</label>
+                    <div class="input-group mb-1">
+                        <input id="flSizeInput" type="text" class="form-control form-control-sm" placeholder=""/>
+                    </div>
+                </div>
+                <div id="collapse-fl-pert-model" class="p-2 collapse show">
+                    <label style="font-size: small;margin: 0;">Perturbation amount (0 - 50):</label>
+                    <div class="input-group mb-1">
+                        <input id="flPertInput" type="text" class="form-control form-control-sm" placeholder=""/>
+                    </div>
+                </div>
+                <div id="collapse-fl-rough-model" class="p-2 collapse show">
+                    <label style="font-size: small;margin: 0;">Roughness (0 - 10):</label>
+                    <div class="input-group mb-1">
+                        <input id="flRoughInput" type="text" class="form-control form-control-sm" placeholder=""/>
+                    </div>
+                </div>
+
+                <button id="flApply" class="btn btn-sm btn-outline-success m-2" type="button">Apply settings</button>
+            </div>
+        </div>
+        <div id="flLoading" style="display: none; flex-direction: column; align-items: center; justify-content: center; position: absolute; width: 85%; height: calc(100vh - 85px); left: 15%; right: 0;">
+                <img class="loading" src="img/hourglass.svg" alt="loading icon">
+                <span>Loading...</span>
+        </div>
+        <div id="flCanvas" style="position: absolute; width: 85%; height: calc(100vh - 50px); left: 15%; right: 0;">
+        </div>
+    </div>
+
+<!--    MANDELBROT SET-->
+    <div id="msContainer" style="position: relative; display: none;">
+        <div style="position: fixed; left: 0; top: 85px; width: 15%; z-index: 1;box-shadow: 0.05rem 0.3rem 0.5rem rgba(0,0,0,0.5); height: calc(100vh - 85px); overflow-y: auto; overflow-x: hidden">
+            <h5 class="p-2 m-0" style="text-align: center; font-family: sans-serif; border-bottom: 4px dotted #9FCC7F;"><strong>Mandelbrot set</strong></h5>
+            <div id="msList" class="list-group list-group-flush">
+                <div id="collapse-ms-epochs-model" class="p-2 collapse show">
+                    <label style="font-size: small;margin: 0;">Number of epochs</label>
+                    <div class="input-group mb-1">
+                        <input id="msEpochsInput" type="text" class="form-control form-control-sm" placeholder=""/>
+                    </div>
+                </div>
+                <div id="collapse-ms-scale-model" class="p-2 collapse show">
+                    <label style="font-size: small;margin: 0;">Scale weight:</label>
+                    <div class="input-group mb-1">
+                        <input id="msScaleInput" type="text" class="form-control form-control-sm" placeholder=""/>
+                    </div>
+                </div>
+
+                <div id="collapse-ms-infinity-model" class="p-2 collapse show">
+                    <label style="font-size: small;margin: 0;">Infinity end:</label>
+                    <div class="input-group mb-1">
+                        <input id="msInfinityInput" type="text" class="form-control form-control-sm" placeholder=""/>
+                    </div>
+                </div>
+                <button id="msApply" class="btn btn-sm btn-outline-success m-2" type="button">Apply settings</button>
+            </div>
+        </div>
+        <div id="ms" style="position: absolute; width: 85%; left: 15%; right: 0;">
+        </div>
+    </div>
+
+<!--    IFS-->
+        <div id="ifsContainer" style="position: relative; display: none;">
+            <div style="position: fixed; left: 0; top: 85px; width: 15%; z-index: 1;box-shadow: 0.05rem 0.3rem 0.5rem rgba(0,0,0,0.5); height: calc(100vh - 85px); overflow-y: auto; overflow-x: hidden">
+                <h5 class="p-2 m-0 border-bottom" style="text-align: center; font-family: sans-serif; border-bottom: 4px dotted #9FCC7F;"><strong>IFSs to render</strong></h5>
+                <div id="ifsModelList" class="list-group list-group-flush">
+                    <button
+                        id="ifsFirstModel"
+                        style="font-weight: bold;"
+                        type="button"
+                        class="list-group-item collapsed list-group-item-action active"
+                    >
+                       First fern model
+                    </button>
+                    <div id="collapse-first-model" class="p-2 collapse show list-container">
+                        <label style="font-size: small;margin: 0;">Number of epochs:</label>
+                        <div class="input-group-sm mb-2">
+                            <input id="firstModelEpochsInput" type="text" class="form-control" placeholder=""/>
+                        </div>
+                        <button id="firstModelApply" class="btn btn-block btn-sm btn-success" type="button">Apply epochs</button>
+                    </div>
+                    <button
+                            id="ifsSecondModel"
+                            style="font-weight: bold;"
+                            type="button"
+                            class="mt-2 list-group-item collapsed list-group-item-action active"
+                    >
+                        Second fern model
+                    </button>
+                    <div id="collapse-second-model" class="p-2 collapse show list-container">
+                        <label style="font-size: small;margin: 0;">Number of epochs:</label>
+                        <div class="input-group-sm mb-2">
+                            <input id="secondModelEpochsInput" type="text" class="form-control" placeholder=""/>
+                        </div>
+                        <button id="secondModelApply" class="btn btn-block btn-sm btn-success" type="button">Apply epochs</button>
+                    </div>
+                </div>
+            </div>
+            <div style="position: absolute; width: 85%; height: calc(100vh - 85px); left: 15%; right: 0; display: flex; justify-content: center; align-items: center;">
+                    <div style="display: flex; flex-direction: column;align-items: center; justify-content: center;">
+                        <h4 style="font-family: monospace; font-weight: bold; font-size: 24px;">First fern model</h4>
+                        <div id="ifsFirstModelCanvas"></div>
+                    </div>
+                <div style="display: flex; flex-direction: column;align-items: center; justify-content: center;">
+                    <h4 style="font-family: monospace; font-weight: bold; font-size: 24px;">Second fern model</h4>
+                    <div id="ifsSecondModelCanvas"></div>
+                </div>
+            </div>
+        </div>
+
+<!--    L-SYSTEMS-->
+        <div id="lsContainer" style="position: relative; display: none;">
+        <div style="position: fixed; left: 0; top: 85px; width: 15%; z-index: 1;box-shadow: 0.05rem 0.3rem 0.5rem rgba(0,0,0,0.5); height: calc(100vh - 85px); overflow-y: auto; overflow-x: hidden">
+            <h5 id="setupPatternItem" class="p-2 m-0 border-bottom" style="text-align: center; font-family: sans-serif; cursor: pointer;"><strong>Setup your own pattern</strong></h5>
+            <div id="setupPatternList" class="p-2 collapse">
+                <label style="font-size: small;margin: 0;">Axiom:</label>
+                <input id="axiomInput" type="text" class="form-control form-control-sm" placeholder="eg. F">
+                <label style="font-size: small;margin: 0;">Rule 1:</label>
+                <div style="display: flex;">
+                    <input id="ruleOneInput1" type="text" class="form-control form-control-sm mr-2 w-25" placeholder="eg. F">
+                    <input id="ruleOneInput2" type="text" class="form-control form-control-sm w-75" placeholder="eg. F-F++F-F">
+                </div>
+                <label style="font-size: small;margin: 0;">Rule 2:</label>
+                <div style="display: flex;">
+                    <input id="ruleTwoInput1" type="text" class="form-control form-control-sm mr-2 w-25" placeholder="eg. X">
+                    <input id="ruleTwoInput2" type="text" class="form-control form-control-sm w-75" placeholder="eg. --FXF++">
+                </div>
+                <div style="display: flex; justify-content: space-around;">
+                    <label style="font-size: small; margin: 0;">N of loops:</label>
+                    <label style="font-size: small; margin: 0;">Angle:</label>
+                </div>
+                <div style="display: flex;">
+                    <div class="input-group-sm mb-2 mr-2">
+                        <input id="ownN" type="text" class="form-control" placeholder="integer eg. 4">
+                    </div>
+                    <div class="input-group-sm mb-2">
+                        <input id="ownAngle" type="text" class="form-control" placeholder="integer eg. 90">
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: space-around;">
+                    <label style="font-size: small; margin: 0;">Start X:</label>
+                    <label style="font-size: small; margin: 0;">Start Y:</label>
+                </div>
+                <div style="display: flex;">
+                    <div class="input-group-sm mb-2 mr-2">
+                        <input id="ownX" type="text" class="form-control" placeholder="eg. 500">
+                    </div>
+                    <div class="input-group-sm mb-2">
+                        <input id="ownY" type="text" class="form-control" placeholder="eg. 500">
+                    </div>
+                </div>
+                <button id="renderPattern" class="btn btn-block btn-sm btn-success mt-1" type="button">Render pattern</button>
+            </div>
+
+            <h5 class="py-2 m-0" style="text-align: center; font-family: sans-serif; border-top: 4px dotted #9FCC7F;"><strong>Default patterns</strong></h5>
+            <div id="patternsToDrawList" class="list-group list-group-flush">
+            </div>
+        </div>
+        <div id="p5" style="position: absolute; width: 85%; left: 15%; right: 0;">
+
+        </div>
+    </div>
+
+<!--    HOPFIELD NETWORK-->
+<!--    <div id="canvas" style="width:90%;height:90%;"></div>-->
+<!--    <div class="flex-container-column">-->
+<!--        <h2 class="headline">Input patterns</h2>-->
+<!--        <div style="display: flex;">-->
+<!--            <div id="canvas1" class="hopfield-grid"></div>-->
+<!--            <div id="canvas2" class="hopfield-grid"></div>-->
+<!--            <div id="canvas3" class="hopfield-grid"></div>-->
+<!--        </div>-->
+<!--        <h2 class="headline">Deformed patterns</h2>-->
+<!--        <div style="display: flex;">-->
+<!--            <div id="canvasDef1" class="hopfield-grid"></div>-->
+<!--            <div id="canvasDef2" class="hopfield-grid"></div>-->
+<!--            <div id="canvasDef3" class="hopfield-grid"></div>-->
+<!--        </div>-->
+<!--        <div style="display: flex;">-->
+<!--            <div class="flex-container-column">-->
+<!--                <h2 class="headline">Classified patterns - synchronous method</h2>-->
+<!--                <div style="display: flex;">-->
+<!--                    <div id="canvasRes1" class="hopfield-grid"></div>-->
+<!--                    <div id="canvasRes2" class="hopfield-grid"></div>-->
+<!--                    <div id="canvasRes3" class="hopfield-grid"></div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="flex-container-column" style="margin-left: 150px;">-->
+<!--                <h2 class="headline">Classified patterns - asynchronous method</h2>-->
+<!--                <div style="display: flex;">-->
+<!--                    <div id="canvasAsyncRes1" class="hopfield-grid"></div>-->
+<!--                    <div id="canvasAsyncRes2" class="hopfield-grid"></div>-->
+<!--                    <div id="canvasAsyncRes3" class="hopfield-grid"></div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<script type="text/javascript" src="main.js"></script></body>
+</html>
